@@ -4,7 +4,7 @@ def get_page(self, suffix):
     integer representing the current page.
     """
     try:
-        return int(self.REQUEST['page%s' % suffix])
+        return int(self.GET.get('page%s' % suffix))
     except (KeyError, ValueError, TypeError):
         return 1
 
@@ -14,4 +14,4 @@ class PaginationMiddleware(object):
     it exists in either **GET** or **POST** portions of the request.
     """
     def process_request(self, request):
-        request.__class__.page = get_page
+        request.__class__.page = property(get_page)
